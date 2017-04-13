@@ -21,7 +21,7 @@ Building
 
 To build all images::
 
-  ./standalone-setup.sh # required if you don't have checked out ivory tower and ivory-tower-stm32 repos in ..
+  ./standalone-setup.sh # required if you don't have checked out ivory tower and ivory-tower-stm32 repos in .. (recommended)
   make
 
 Tests
@@ -51,13 +51,13 @@ to also issue run and start application after loading use::
 to just run gdb with new binary without loading::
 
         make blink-test-gdb
-        # issuing 'load' in gdb         == pwm-load
-        # running both 'load' and 'run' == pwm-run
+        # issuing 'load' in gdb         == blink-test-load
+        # running both 'load' and 'run' == blink-test-run
 
 
 Flashing
 --------
 
-With BlackMagic Probe::
+Manually with BlackMagic Probe::
 
   arm-none-eabi-gdb --ex 'target extended-remote /dev/ttyACM0' --ex 'monitor swdp_scan' --ex 'attach 1' --ex 'load' build/can2uart-test/image
