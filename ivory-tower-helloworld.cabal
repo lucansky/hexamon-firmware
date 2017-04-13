@@ -1,0 +1,85 @@
+
+name:                ivory-tower-helloworld
+version:             0.1.0.0
+synopsis:            helloworld application
+-- description:
+license:             BSD3
+author:              Your name here
+maintainer:          example@example.org
+copyright:           2017 Your name here
+-- category:
+build-type:          Simple
+cabal-version:       >=1.10
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     Hello.Tests.Platforms
+                       Hello.Tests.LED
+                       Hello.Tests.Blink
+                       Hello.Tests.CANSendRecv
+                       Hello.Tests.CAN2UART
+                       --Hello.App
+                       --Hello.Platforms
+
+  build-depends:       base >= 4.6,
+                       monadLib,
+                       ivory,
+                       ivory-stdlib,
+                       ivory-hw,
+                       tower              >= 0.9,
+                       tower-config,
+                       tower-hal,
+                       tower-freertos-stm32 >= 0.9,
+                       ivory-bsp-stm32,
+                       ivory-bsp-tests
+
+  default-language:    Haskell2010
+  ghc-options:         -Wall
+
+executable blink-test-gen
+  main-is:             BlinkTest.hs
+  hs-source-dirs:      test
+  build-depends:       base >= 4.6,
+                       ivory,
+                       ivory-stdlib,
+                       ivory-backend-c,
+                       ivory-hw,
+                       tower          >= 0.9,
+                       tower-config,
+                       tower-freertos-stm32,
+                       ivory-bsp-stm32,
+                       ivory-bsp-tests,
+                       ivory-tower-helloworld
+  ghc-options:          -Wall
+
+executable cansendrecv-test-gen
+  main-is:             CANSendRecvTest.hs
+  hs-source-dirs:      test
+  build-depends:       base >= 4.6,
+                       ivory,
+                       ivory-stdlib,
+                       ivory-backend-c,
+                       ivory-hw,
+                       tower          >= 0.9,
+                       tower-config,
+                       tower-freertos-stm32,
+                       ivory-bsp-stm32,
+                       ivory-bsp-tests,
+                       ivory-tower-helloworld
+  ghc-options:          -Wall
+
+executable can2uart-test-gen
+  main-is:             CAN2UARTTest.hs
+  hs-source-dirs:      test
+  build-depends:       base >= 4.6,
+                       ivory,
+                       ivory-stdlib,
+                       ivory-backend-c,
+                       ivory-hw,
+                       tower          >= 0.9,
+                       tower-config,
+                       tower-freertos-stm32,
+                       ivory-bsp-stm32,
+                       ivory-bsp-tests,
+                       ivory-tower-helloworld
+  ghc-options:          -Wall
