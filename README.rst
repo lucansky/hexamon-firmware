@@ -28,7 +28,7 @@ Tests
 -----
 
 Blink
-  Blinks external LEDs on GPIO1 and GPIO2
+  Blinks red and blue LEDs on GPIOD14 and GPIOD15
 CANSendRecv
   Test application sending packets from CAN1, blinks on received packets.
 CAN2UART
