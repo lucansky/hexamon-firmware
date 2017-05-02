@@ -24,11 +24,6 @@ Fedora::
 Building
 --------
 
-To build all images::
-
-  ./standalone-setup.sh # required if you don't have checked out ivory tower and ivory-tower-stm32 repos in .. (recommended)
-  make
-
 Run `make hexamon` to build application.
 
 To load Hexamon firmware run::

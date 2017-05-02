@@ -67,11 +67,11 @@ app tocc toleds todualhx711 totestcan tohexamon = do
         let msgid = extendedCANID (fromRep busunitSerial) (boolToBit false)
         r <- local $ istruct
                 [ can_message_id  .= ival msgid
-                , can_message_len .= ival 8
+                , can_message_len .= ival 6
                 ]
         sensorIndex <- local $ ival (0 :: Uint8)
-        packInto (r~>can_message_buf) 2 (constRef sensorIndex)
-        packInto (r~>can_message_buf) 4 (sensorSample~>sensor_value)
+        packInto (r~>can_message_buf) 0 (constRef sensorIndex)
+        packInto (r~>can_message_buf) 2 (sensorSample~>sensor_value)
         refCopy last_sent r
 
         was_pending <- deref tx0_pending
@@ -94,11 +94,11 @@ app tocc toleds todualhx711 totestcan tohexamon = do
         let msgid = extendedCANID (fromRep busunitSerial) (boolToBit false)
         r <- local $ istruct
                 [ can_message_id  .= ival msgid
-                , can_message_len .= ival 8
+                , can_message_len .= ival 6
                 ]
         sensorIndex <- local $ ival (1 :: Uint8)
-        packInto (r~>can_message_buf) 2 (constRef sensorIndex)
-        packInto (r~>can_message_buf) 4 (sensorSample~>sensor_value)
+        packInto (r~>can_message_buf) 0 (constRef sensorIndex)
+        packInto (r~>can_message_buf) 2 (sensorSample~>sensor_value)
         refCopy last_sent r
 
         was_pending <- deref tx1_pending
