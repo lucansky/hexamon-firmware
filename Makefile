@@ -1,14 +1,11 @@
 #include ../stack.mk
 
-TARGET ?= /dev/ttyACM0
+TARGET ?= /dev/cu.usbmodemE2E1A6C1
 IVORYFLAGS ?= --const-fold --verbose
 TESTS      := \
-	cansendrecv-test \
-	can2uart-test \
-	led-test \
-	blink-test
+	hexamon
 
-AADL_TESTS := 
+AADL_TESTS :=
 CLEANS     := $(foreach test,$(TESTS),$(test)-clean) \
 	            $(foreach test,$(AADL_TESTS),$(test)_clean)
 GDB := arm-none-eabi-gdb \
@@ -34,8 +31,6 @@ $(1)-clean:
 	rm -rf build/$(1)
 $(1)-gdb: $(1)
 	$(GDB) build/$(1)/image
-$(1)-gdbtui: $(1)
-	$(GDB) -tui build/$(1)/image
 $(1)-load: $(1)
 	$(GDB) --ex 'load' build/$(1)/image
 $(1)-run: $(1)
@@ -51,3 +46,6 @@ endef
 
 $(foreach test,$(TESTS),$(eval $(call MKTEST,$(test))))
 $(foreach test,$(AADL_TESTS),$(eval $(call MK_AADL_TEST,$(test))))
+
+upload:
+	scp ./build/hexamon/image torpi:~/image

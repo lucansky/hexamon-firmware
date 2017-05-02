@@ -1,7 +1,12 @@
-helloworld firmware
+HEXAMON.io MCU firmware
 ====================
 
-Experimental version of Hello world firmware
+Hexamon firmware for STM32F042.
+Dual channel HX711 periodic weight measuring, sends acquired data over CAN.
+
+- PA1 -- shared CLK for HX711 modules
+- PA4 -- DATA pin HX711 module 0
+- PA5 -- DATA pin HX711 module 1
 
 Written in http://ivorylang.org/
 
@@ -24,40 +29,25 @@ To build all images::
   ./standalone-setup.sh # required if you don't have checked out ivory tower and ivory-tower-stm32 repos in .. (recommended)
   make
 
-Tests
------
+Run `make hexamon` to build application.
 
-Blink
-  Blinks red and blue LEDs on GPIOD14 and GPIOD15
-CANSendRecv
-  Test application sending packets from CAN1, blinks on received packets.
-CAN2UART
-  Test application for receiving and sending
-  CAN packets controlled by UART
+To load Hexamon firmware run::
 
-
-Run `make` to build all test applications.
-Specific application can be built with `make APP`
-loaded with `make APP-load` and `make APP-run`.
-
-To load Blink test application run::
-
-        make blink-test-load
+        make hexamon-load
 
 to also issue run and start application after loading use::
 
-        make blink-test-run
+        make hexamon-run
 
 to just run gdb with new binary without loading::
 
-        make blink-test-gdb
-        # issuing 'load' in gdb         == blink-test-load
-        # running both 'load' and 'run' == blink-test-run
-
+        make hexamon-gdb
+        # issuing 'load' in gdb         == hexamon-load
+        # running both 'load' and 'run' == hexamon-run
 
 Flashing
 --------
 
 Manually with BlackMagic Probe::
 
-  arm-none-eabi-gdb --ex 'target extended-remote /dev/ttyACM0' --ex 'monitor swdp_scan' --ex 'attach 1' --ex 'load' build/can2uart-test/image
+  arm-none-eabi-gdb --ex 'target extended-remote /dev/ttyACM0' --ex 'monitor swdp_scan' --ex 'attach 1' --ex 'load' build/hexamon/image

@@ -4,8 +4,8 @@ module Main where
 import Ivory.Tower.Config
 import Ivory.OS.FreeRTOS.Tower.STM32
 
-import Hello.Tests.Platforms
-import Hello.Tests.CANSendRecv (app)
+import Hexamon.Platforms
+import Hexamon.Tests.CANSendRecv (app)
 
 main :: IO ()
 main = compileTowerSTM32FreeRTOS testplatform_stm32 p $

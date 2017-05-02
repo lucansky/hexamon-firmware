@@ -2,14 +2,14 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE FlexibleContexts #-}
 
-module Hello.Tests.Blink where
+module Hexamon.Tests.Blink where
 
 import Ivory.Language
 import Ivory.Tower
 import Ivory.HW.Module
 
-import Hello.Tests.LED
-import Hello.Tests.Platforms
+import Hexamon.Tests.LED
+import Hexamon.Platforms
 ------------------------------
 
 -- | LED Controller: Given a set of leds and a control channel of booleans,

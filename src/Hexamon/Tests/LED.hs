@@ -1,5 +1,5 @@
 
-module Hello.Tests.LED where
+module Hexamon.Tests.LED where
 
 import Ivory.Language
 
@@ -35,4 +35,3 @@ pinHigh pin = do
 
 pinHiZ :: GPIOPin -> Ivory eff ()
 pinHiZ pin = pinSetMode pin gpio_mode_analog
-

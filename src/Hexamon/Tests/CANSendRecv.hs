@@ -3,7 +3,7 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE FlexibleContexts #-}
 
-module Hello.Tests.CANSendRecv where
+module Hexamon.Tests.CANSendRecv where
 
 import Ivory.Language
 import Ivory.Tower
@@ -14,8 +14,8 @@ import Ivory.BSP.STM32.ClockConfig
 import Ivory.BSP.STM32.Driver.CAN
 import Ivory.BSP.STM32.Peripheral.CAN.Filter
 
-import Hello.Tests.Platforms
-import Hello.Tests.LED
+import Hexamon.Platforms
+import Hexamon.Tests.LED
 
 app :: (e -> ClockConfig)
     -> (e -> TestCAN)

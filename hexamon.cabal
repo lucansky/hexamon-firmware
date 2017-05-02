@@ -1,0 +1,118 @@
+
+name:                hexamon
+version:             0.1.0.0
+synopsis:            firmware for beehive weighting system - STM32F042
+-- description:
+license:             BSD3
+author:              Adam Lucansky
+maintainer:          adamlucansky@gmail.com
+copyright:           2017 Adam Lucansky
+-- category:
+build-type:          Simple
+cabal-version:       >=1.10
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     Hexamon.Platforms
+                       Hexamon.HX711
+                       Hexamon.DualHX711
+                       Hexamon.Tests.Blink
+                       Hexamon.Tests.CANSendRecv
+                       Hexamon.Tests.LED
+                       Hexamon.Types
+                       Hexamon.App
+
+  build-depends:       base >= 4.6,
+                       monadLib,
+                       ivory,
+                       ivory-stdlib,
+                       ivory-hw,
+                       ivory-serialize,
+                       tower              >= 0.9,
+                       tower-config,
+                       tower-hal,
+                       tower-freertos-stm32 >= 0.9,
+                       ivory-bsp-stm32,
+                       ivory-bsp-tests
+
+  default-language:    Haskell2010
+  ghc-options:         -Wall
+
+-- executable hx711-test-gen
+--   main-is:             HX711Test.hs
+--   hs-source-dirs:      test
+--   build-depends:       base >= 4.6,
+--                        ivory,
+--                        ivory-stdlib,
+--                        ivory-backend-c,
+--                        ivory-hw,
+--                        tower          >= 0.9,
+--                        tower-config,
+--                        tower-freertos-stm32,
+--                        ivory-bsp-stm32,
+--                        ivory-bsp-tests,
+--                        ivory-tower-helloworld
+--   ghc-options:          -Wall
+
+executable hexamon-gen
+  main-is:             Hexamon.hs
+  hs-source-dirs:      test
+  build-depends:       base >= 4.6,
+                       ivory,
+                       ivory-stdlib,
+                       ivory-backend-c,
+                       ivory-hw,
+                       tower          >= 0.9,
+                       tower-config,
+                       tower-freertos-stm32,
+                       ivory-bsp-stm32,
+                       ivory-bsp-tests,
+                       hexamon
+  ghc-options:          -Wall
+-- executable blink-test-gen
+--   main-is:             BlinkTest.hs
+--   hs-source-dirs:      test
+--   build-depends:       base >= 4.6,
+--                        ivory,
+--                        ivory-stdlib,
+--                        ivory-backend-c,
+--                        ivory-hw,
+--                        tower          >= 0.9,
+--                        tower-config,
+--                        tower-freertos-stm32,
+--                        ivory-bsp-stm32,
+--                        ivory-bsp-tests,
+--                        ivory-tower-helloworld
+--   ghc-options:          -Wall
+--
+-- executable cansendrecv-test-gen
+--   main-is:             CANSendRecvTest.hs
+--   hs-source-dirs:      test
+--   build-depends:       base >= 4.6,
+--                        ivory,
+--                        ivory-stdlib,
+--                        ivory-backend-c,
+--                        ivory-hw,
+--                        tower          >= 0.9,
+--                        tower-config,
+--                        tower-freertos-stm32,
+--                        ivory-bsp-stm32,
+--                        ivory-bsp-tests,
+--                        hexamon
+--   ghc-options:          -Wall
+--
+-- executable can2uart-test-gen
+--   main-is:             CAN2UARTTest.hs
+--   hs-source-dirs:      test
+--   build-depends:       base >= 4.6,
+--                        ivory,
+--                        ivory-stdlib,
+--                        ivory-backend-c,
+--                        ivory-hw,
+--                        tower          >= 0.9,
+--                        tower-config,
+--                        tower-freertos-stm32,
+--                        ivory-bsp-stm32,
+--                        ivory-bsp-tests,
+--                        ivory-tower-helloworld
+--   ghc-options:          -Wall

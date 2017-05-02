@@ -6,7 +6,12 @@ resolver: lts-8.9
 # Local packages, usually specified by relative directory name
 packages:
 - '.'
-- location: ../ivory-tower-stm32/
+
+# Uncomment for local development, comment git, commit line
+# - location: ../ivory-tower-stm32/
+- location:
+    git: https://git.48.io/ivory-tower-stm32.git
+    commit: cce669b7493452e8e7c00c2f2218e037e8dbb3b2
   extra-dep: true
   subdirs:
     - ivory-bsp-stm32
@@ -14,7 +19,11 @@ packages:
     - ivory-freertos-bindings
     - tower-freertos-stm32
     - tower-echronos-stm32
-- location: ../ivory/
+
+# - location: ../ivory/
+- location:
+    git: https://github.com/GaloisInc/ivory
+    commit: 1f2b3c4940c97fcb4f44f1dfbbec6e41d73843e5
   extra-dep: true
   subdirs:
     - ivory
@@ -24,7 +33,10 @@ packages:
     - ivory-opts
     - ivory-serialize
     - ivory-stdlib
-- location: ../tower/
+# - location: ../tower/
+- location:
+    git: https://github.com/GaloisInc/tower
+    commit: f137547e4d50be03ab554c42253e4a7fb97b9821
   extra-dep: true
   subdirs:
     - tower
