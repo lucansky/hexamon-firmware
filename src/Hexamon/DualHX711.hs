@@ -11,7 +11,7 @@
 module Hexamon.DualHX711 where
 
 import Ivory.Language
--- import Ivory.Stdlib
+import Ivory.Stdlib
 import Ivory.HW
 import Ivory.Tower
 
@@ -24,12 +24,7 @@ dualhx711Tower :: DualHX711
                         -> Tower e
                              (ChanOutput ('Struct "sensor_sample"), ChanOutput ('Struct "sensor_sample"))
 dualhx711Tower DualHX711{sharedClockPin=clk, dataPin0=dat0, dataPin1=dat1} = do
-  -- periodic <- period (Milliseconds 500)
-
-  --let SYSCFG{..} = syscfg
-  --let EXTI{..} = exti
-
-  periodic <- period (Milliseconds 500)
+  periodic <- period (Milliseconds 10000)
 
   chan0 <- channel
   chan1 <- channel
@@ -40,7 +35,6 @@ dualhx711Tower DualHX711{sharedClockPin=clk, dataPin0=dat0, dataPin1=dat1} = do
     current_weight0 <- stateInit "current_weight0" (ival (0 :: Uint32))
     current_weight1 <- stateInit "current_weight1" (ival (0 :: Uint32))
 
-
     handler periodic "periodic_hx711" $ do
       e0 <- emitter (fst chan0) 1
       e1 <- emitter (fst chan1) 1
@@ -49,8 +43,14 @@ dualhx711Tower DualHX711{sharedClockPin=clk, dataPin0=dat0, dataPin1=dat1} = do
         store current_weight0 0
         store current_weight1 0
 
+        comment "wait for both converters to settle for result"
+        forever $ do
+          datValue0 <- pinRead dat0
+          datValue1 <- pinRead dat1
+          when (datValue0 ==? false .&& datValue1 ==? false) breakOut
+
         arrayMap $ \(i :: Ix 24) -> do
-          arrayMap $ \(_ :: Ix 20) -> pinSet clk
+          pinSet clk
 
           val0 <- (pinRead dat0)
           val1 <- (pinRead dat1)
@@ -59,12 +59,12 @@ dualhx711Tower DualHX711{sharedClockPin=clk, dataPin0=dat0, dataPin1=dat1} = do
           store current_weight0 $ aux_weight0  .| ((safeCast val0) `iShiftL` (24 - signCast (fromIx i)))
           store current_weight1 $ aux_weight1  .| ((safeCast val1) `iShiftL` (24 - signCast (fromIx i)))
 
-          arrayMap $ \(_ :: Ix 20) -> pinClear clk
+          pinClear clk
 
         -- One CLK pulse to set 128x Channel A gain
         arrayMap $ \(_ :: Ix 1) -> do
-          arrayMap $ \(_ :: Ix 20) -> pinSet clk
-          arrayMap $ \(_ :: Ix 20) -> pinClear clk
+          pinSet clk
+          pinClear clk
 
         measured_weight0 <- deref current_weight0
         measured_weight1 <- deref current_weight1
@@ -72,7 +72,7 @@ dualhx711Tower DualHX711{sharedClockPin=clk, dataPin0=dat0, dataPin1=dat1} = do
 
         x0 <- local $ istruct
                 [ sensor_type  .= ival (0 :: Uint8)
-                , sensor_index .= ival (1 :: Uint8)
+                , sensor_index .= ival (0 :: Uint8)
                 , sensor_value .= ival measured_weight0 ]
         emit e0 (constRef x0)
 

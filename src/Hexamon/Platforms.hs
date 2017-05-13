@@ -118,8 +118,6 @@ data TestPlatform =
   TestPlatform
     { testplatform_leds       :: ColoredLEDs
     , testplatform_dualhx711  :: DualHX711
-    -- , testplatform_hx711_chan2  :: HX711
-    -- , testplatform_multihx711 :: MultiHX711
     , testplatform_can1       :: TestCAN
     , testplatform_hexamon    :: HexamonConfig
     , testplatform_stm32      :: STM32Config
@@ -138,23 +136,16 @@ hellof0 = TestPlatform
       }
   , testplatform_dualhx711 = DualHX711
       { sharedClockPin = F042.pinA1
-      , dataPin0       = F042.pinA4
-      , dataPin1       = F042.pinA5
+      , dataPin0       = F042.pinA5
+      , dataPin1       = F042.pinA4
       }
-  -- , testplatform_hx711_chan1 = HX711
-  --     { clockPin  = F042.pinA1,
-  --       dataPin   = F042.pinA4
-  --     }
-  -- , testplatform_hx711_chan2 = HX711
-  --     { clockPin  = F042.pinA1,
-  --       dataPin   = F042.pinA5
-  --     }
   , testplatform_can1 = TestCAN
       { testCAN = F042.can1
       , testCANRX = F042.pinA11
       , testCANTX = F042.pinA12
       , testCANFilters = F042.canFilters
       }
-  , testplatform_hexamon = HexamonConfig (0x43210)
+  -- Here edit UID of the bus-unit
+  , testplatform_hexamon = HexamonConfig { hexamonConfigUID = 1450055 }
   , testplatform_stm32 = stm32f042Defaults 8
   }

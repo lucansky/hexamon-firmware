@@ -20,7 +20,7 @@ import Ivory.Serialize (packInto, serializeArtifacts, serializeModule)
 
 import Hexamon.DualHX711
 import Hexamon.Platforms
-import Hexamon.Tests.LED
+-- import Hexamon.Tests.LED
 
 app :: (e -> ClockConfig) -> (e -> ColoredLEDs) -> (e -> DualHX711) -> (e -> TestCAN) -> (e -> HexamonConfig) -> Tower e ()
 app tocc toleds todualhx711 totestcan tohexamon = do
@@ -69,8 +69,7 @@ app tocc toleds todualhx711 totestcan tohexamon = do
                 [ can_message_id  .= ival msgid
                 , can_message_len .= ival 6
                 ]
-        sensorIndex <- local $ ival (0 :: Uint8)
-        packInto (r~>can_message_buf) 0 (constRef sensorIndex)
+        packInto (r~>can_message_buf) 0 (sensorSample~>sensor_index)
         packInto (r~>can_message_buf) 2 (sensorSample~>sensor_value)
         refCopy last_sent r
 
@@ -96,8 +95,7 @@ app tocc toleds todualhx711 totestcan tohexamon = do
                 [ can_message_id  .= ival msgid
                 , can_message_len .= ival 6
                 ]
-        sensorIndex <- local $ ival (1 :: Uint8)
-        packInto (r~>can_message_buf) 0 (constRef sensorIndex)
+        packInto (r~>can_message_buf) 0 (sensorSample~>sensor_index)
         packInto (r~>can_message_buf) 2 (sensorSample~>sensor_value)
         refCopy last_sent r
 
@@ -114,12 +112,3 @@ app tocc toleds todualhx711 totestcan tohexamon = do
           store tx1_pending true
 
     -- Not enough SRAM for LEDs and CAN processing on STM32F042 :(
-
-    -- received <- stateInit "can_received_count" (ival (0 :: Uint32))
-    -- handler res "result" $ do
-    --   callback $ const $ do
-    --     count <- deref received
-    --     store received (count + 1)
-    --     ifte_ (count .& 1 ==? 0)
-    --       (ledOff $ redLED leds)
-    --       (ledOn  $ redLED leds)
